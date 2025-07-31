@@ -1,4 +1,6 @@
-﻿using FolderSyncTool.App.FileSync.Service;
+﻿using FolderSyncTool.App.ArgumentParser.Service;
+using FolderSyncTool.App.Common.Structs;
+using FolderSyncTool.App.FileSync.Service;
 using FolderSyncTool.Core;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -17,8 +19,21 @@ namespace FolderSyncTool.App
 
             var host = builder.Build();
 
+            var parseService = host.Services.GetRequiredService<IArgumentParserService>();
+            Options options = parseService.Parse(args);
+
+            if (string.IsNullOrEmpty(options.SourcePath))
+            {
+                throw new NullReferenceException(nameof(options.SourcePath));
+            }
+
+            if(string.IsNullOrEmpty(options.ReplicaPath))
+            {
+                throw new NullReferenceException(nameof(options.ReplicaPath));
+            }
+
             var syncService = host.Services.GetRequiredService<IFileSyncService>();
-            syncService.Sync("E:\\SyncTest\\Source", "E:\\SyncTest\\Replica");
+            syncService.Sync(options.SourcePath, options.ReplicaPath);
         }
     }
 }

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "FolderSyncTool.App": {
+      "commandName": "Project",
+      "commandLineArgs": "-s \"E:/SyncTest/Source\" -r \"E:/SyncTest/Replica\" -i 10 -l \"E:/SyncTest/Logs\""
+    }
+  }
+}

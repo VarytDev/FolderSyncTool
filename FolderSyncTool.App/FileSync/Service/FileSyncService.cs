@@ -11,11 +11,6 @@ namespace FolderSyncTool.App.FileSync.Service
 
         private static void ReplicateDirectory(string sourcePath, string targetPath)
         {
-            if(string.IsNullOrEmpty(sourcePath) || string.IsNullOrEmpty(targetPath))
-            {
-                throw new Exception("Path can't be empty!");
-            }
-
             if(!Directory.Exists(sourcePath))
             {
                 throw new Exception("There is no source to copy!");
