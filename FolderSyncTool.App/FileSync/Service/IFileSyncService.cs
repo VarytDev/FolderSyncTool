@@ -2,6 +2,6 @@
 {
     public interface IFileSyncService
     {
-        public void Sync();
+        public void Sync(string sourcePath, string targetPath);
     }
 }

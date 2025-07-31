@@ -18,7 +18,7 @@ namespace FolderSyncTool.App
             var host = builder.Build();
 
             var syncService = host.Services.GetRequiredService<IFileSyncService>();
-            syncService.Sync();
+            syncService.Sync("E:\\SyncTest\\Source", "E:\\SyncTest\\Replica");
         }
     }
 }
