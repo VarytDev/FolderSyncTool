@@ -1,39 +1,34 @@
 ﻿using FolderSyncTool.App.ArgumentParser.Service;
-using FolderSyncTool.App.Common.Structs;
-using FolderSyncTool.App.FileSync.Service;
+using FolderSyncTool.App.Common.Data;
+using FolderSyncTool.App.FileSync.Scheduling;
 using FolderSyncTool.Core;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Quartz;
 
 namespace FolderSyncTool.App
 {
-    internal class Program
+    public class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             var builder = Host.CreateDefaultBuilder(args);
             builder.ConfigureServices(services =>
             {
                 services.AddServices();
+                services.AddSchedulingServices();
             });
 
             var host = builder.Build();
 
             var parseService = host.Services.GetRequiredService<IArgumentParserService>();
-            Options options = parseService.Parse(args);
+            Config config = parseService.Parse(args);
 
-            if (string.IsNullOrEmpty(options.SourcePath))
-            {
-                throw new NullReferenceException(nameof(options.SourcePath));
-            }
+            var schedulerFactory = host.Services.GetRequiredService<ISchedulerFactory>();
+            var scheduler = await schedulerFactory.GetScheduler();
+            await scheduler.ScheduleFileSyncJob(config);
 
-            if(string.IsNullOrEmpty(options.ReplicaPath))
-            {
-                throw new NullReferenceException(nameof(options.ReplicaPath));
-            }
-
-            var syncService = host.Services.GetRequiredService<IFileSyncService>();
-            syncService.Sync(options.SourcePath, options.ReplicaPath);
+            await host.RunAsync();
         }
     }
 }

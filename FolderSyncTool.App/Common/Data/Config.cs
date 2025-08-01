@@ -1,8 +1,8 @@
 ﻿using CommandLine;
 
-namespace FolderSyncTool.App.Common.Structs
+namespace FolderSyncTool.App.Common.Data
 {
-    public class Options
+    public class Config
     {
         [Option('s', "source", Default = null, Required = true, HelpText = "Source folder path.")]
         public string? SourcePath { get; set; }

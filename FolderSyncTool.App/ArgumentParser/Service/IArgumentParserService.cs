@@ -1,9 +1,9 @@
-﻿using FolderSyncTool.App.Common.Structs;
+﻿using FolderSyncTool.App.Common.Data;
 
 namespace FolderSyncTool.App.ArgumentParser.Service
 {
     public interface IArgumentParserService
     {
-        public Options Parse(string[] args);
+        public Config Parse(string[] args);
     }
 }

@@ -1,13 +1,13 @@
 ﻿using CommandLine;
-using FolderSyncTool.App.Common.Structs;
+using FolderSyncTool.App.Common.Data;
 
 namespace FolderSyncTool.App.ArgumentParser.Service
 {
     public class ArgumentParserService : IArgumentParserService
     {
-        public Options Parse(string[] args)
+        public Config Parse(string[] args)
         {
-            var result = Parser.Default.ParseArguments<Options>(args);
+            var result = Parser.Default.ParseArguments<Config>(args);
             return result.Value;
         }
     }
