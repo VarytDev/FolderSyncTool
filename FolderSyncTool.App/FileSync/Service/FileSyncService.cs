@@ -1,15 +1,23 @@
-﻿using System.Security.Cryptography;
+﻿using FolderSyncTool.App.Logger.Service;
+using System.Security.Cryptography;
 
 namespace FolderSyncTool.App.FileSync.Service
 {
     public class FileSyncService : IFileSyncService
     {
+        private readonly ILoggerService _loggerService;
+
+        public FileSyncService(ILoggerService loggerService)
+        {
+            _loggerService = loggerService;
+        }
+
         public void Sync(string sourcePath, string targetPath)
         {
             ReplicateDirectory(sourcePath, targetPath);
         }
 
-        private static void ReplicateDirectory(string sourcePath, string targetPath)
+        private void ReplicateDirectory(string sourcePath, string targetPath)
         {
             if(!Directory.Exists(sourcePath))
             {
@@ -28,27 +36,37 @@ namespace FolderSyncTool.App.FileSync.Service
             }
         }
 
-        private static void ClaerTargetFiles(string sourcePath, string targetPath)
+        private void ClaerTargetFiles(string sourcePath, string targetPath)
         {
             foreach (var filePath in Directory.GetFiles(targetPath))
             {
-                string sourceFilePath = Path.Combine(sourcePath, Path.GetFileName(filePath));
+                string fileName = Path.GetFileName(filePath);
+                string sourceFilePath = Path.Combine(sourcePath, fileName);
 
                 if (File.Exists(sourceFilePath)) continue;
 
                 File.Delete(filePath);
+                _loggerService.Log($"{fileName} removed from {targetPath}");
             }
         }
 
-        private static void ReplicateSourceFiles(string sourcePath, string targetPath)
+        private void ReplicateSourceFiles(string sourcePath, string targetPath)
         {
             foreach (var filePath in Directory.GetFiles(sourcePath))
             {
-                string targetFilePath = Path.Combine(targetPath, Path.GetFileName(filePath));
+                string fileName = Path.GetFileName(filePath);
+                string targetFilePath = Path.Combine(targetPath, fileName);
 
-                if (File.Exists(targetFilePath) && !IsFileChanged(filePath, targetFilePath)) continue;
+                if(!File.Exists(targetFilePath))
+                {
+                    File.Copy(filePath, targetFilePath);
+                    _loggerService.Log($"{fileName} created in {targetPath}");
+                    continue;
+                }
 
+                if (!IsFileChanged(filePath, targetFilePath)) continue;
                 File.Copy(filePath, targetFilePath, true);
+                _loggerService.Log($"{fileName} modified in {targetPath}");
             }
         }
 

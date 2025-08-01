@@ -1,10 +1,12 @@
 ﻿using FolderSyncTool.App.ArgumentParser.Service;
 using FolderSyncTool.App.Common.Data;
 using FolderSyncTool.App.FileSync.Scheduling;
+using FolderSyncTool.App.Logger.Scheduling;
 using FolderSyncTool.Core;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Quartz;
+using Quartz.Listener;
 
 namespace FolderSyncTool.App
 {
@@ -27,6 +29,15 @@ namespace FolderSyncTool.App
             var schedulerFactory = host.Services.GetRequiredService<ISchedulerFactory>();
             var scheduler = await schedulerFactory.GetScheduler();
             await scheduler.ScheduleFileSyncJob(config);
+
+            if(!string.IsNullOrEmpty(config.LogsPath))
+            {
+                await scheduler.AddLoggerJob(config.LogsPath);
+                var listener = new JobChainingJobListener("FileSyncLoggerChainingListener");
+                listener.AddJobChainLink(new JobKey(nameof(FileSyncJob)), new JobKey(nameof(LoggerJob)));
+
+                scheduler.ListenerManager.AddJobListener(listener);
+            }
 
             await host.RunAsync();
         }

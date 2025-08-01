@@ -1,5 +1,4 @@
-﻿using FolderSyncTool.App.FileSync.Scheduling;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 
 namespace FolderSyncTool.App
@@ -9,9 +8,6 @@ namespace FolderSyncTool.App
         public static IServiceCollection AddSchedulingServices(this IServiceCollection services)
         {
             services.AddQuartz();
-
-            services.AddTransient<FileSyncJob>();
-
             services.AddQuartzHostedService(options =>
             {
                 options.WaitForJobsToComplete = true;

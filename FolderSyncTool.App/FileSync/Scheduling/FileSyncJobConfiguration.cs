@@ -16,11 +16,16 @@ namespace FolderSyncTool.App.FileSync.Scheduling
                 .UsingJobData(ReplicaPathKey, config.ReplicaPath)
                 .Build();
 
-            var trigger = TriggerBuilder.Create()
+            var triggerBuilder = TriggerBuilder.Create()
                 .ForJob(jobDetail)
-                .StartNow()
-                .WithSimpleSchedule(x => x.WithIntervalInSeconds(config.SyncInterval).RepeatForever())
-                .Build();
+                .StartNow();
+
+            if (config.SyncInterval > 0)
+            {
+                triggerBuilder = triggerBuilder.WithSimpleSchedule(x => x.WithIntervalInSeconds(config.SyncInterval).RepeatForever());
+            }
+
+            var trigger = triggerBuilder.Build();
 
             await scheduler.ScheduleJob(jobDetail, trigger);
         }
