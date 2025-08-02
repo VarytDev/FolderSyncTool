@@ -1,5 +1,6 @@
 ﻿using FolderSyncTool.App.FileSync.Service;
 using Quartz;
+using System;
 
 namespace FolderSyncTool.App.FileSync.Scheduling
 {
@@ -22,6 +23,11 @@ namespace FolderSyncTool.App.FileSync.Scheduling
             if(string.IsNullOrEmpty(sourcePath) || string.IsNullOrEmpty(replicaPath))
             {
                 throw new Exception("Can't get required paths from data map!");
+            }
+
+            if(!Path.IsPathRooted(sourcePath) || !Path.IsPathRooted(replicaPath))
+            {
+                throw new Exception("Invalid path!");
             }
 
             _fileSyncService.Sync(sourcePath, replicaPath);

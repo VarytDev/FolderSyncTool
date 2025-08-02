@@ -1,5 +1,5 @@
-﻿using FolderSyncTool.App.Logger.Service;
-using System.Security.Cryptography;
+﻿using FolderSyncTool.App.Common.Utilities;
+using FolderSyncTool.App.Logger.Service;
 
 namespace FolderSyncTool.App.FileSync.Service
 {
@@ -72,19 +72,7 @@ namespace FolderSyncTool.App.FileSync.Service
 
         private static bool IsFileChanged(string sourceFile, string targetFile)
         {
-            return !string.Equals(CheckMD5(sourceFile), CheckMD5(targetFile));
-        }
-
-        private static string CheckMD5(string filePath)
-        {
-            using(var md5 = MD5.Create())
-            {
-                using (var stream = File.OpenRead(filePath))
-                {
-                    var hash = md5.ComputeHash(stream);
-                    return BitConverter.ToString(hash).Replace("-", "").ToLower();
-                }
-            }
+            return !string.Equals(FileHashingUtility.CheckMD5(sourceFile), FileHashingUtility.CheckMD5(targetFile));
         }
     }
 }
