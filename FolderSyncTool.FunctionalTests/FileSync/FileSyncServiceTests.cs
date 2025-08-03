@@ -42,6 +42,36 @@ namespace FolderSyncTool.FunctionalTests.FileSync
         }
 
         [Fact]
+        public void ClearTargetDirectories_ShouldRemoveDirsNotInSource()
+        {
+            // Arrange
+            var (sourcePath, targetPath) = CreateTempDirs();
+
+            var sharedSubDir = Path.Combine(sourcePath, "SharedDir");
+            Directory.CreateDirectory(sharedSubDir);
+
+            var notSharedDir = Path.Combine(targetPath, "NotSharedDir");
+            Directory.CreateDirectory(notSharedDir);
+
+            var sharedTargetDir = Path.Combine(targetPath, "SharedDir");
+            Directory.CreateDirectory(sharedTargetDir);
+
+            try
+            {
+                // Act
+                _fileSyncService.ClearTargetDirectories(sourcePath, targetPath);
+
+                // Assert
+                Directory.Exists(sharedTargetDir).Should().BeTrue();
+                Directory.Exists(notSharedDir).Should().BeFalse();
+            }
+            finally
+            {
+                CleanUp(sourcePath, targetPath);
+            }
+        }
+
+        [Fact]
         public void ReplicateDirectory_ShouldRemoveDeletedFiles()
         {
             //Arrange

@@ -26,7 +26,9 @@ namespace FolderSyncTool.App.FileSync.Service
 
             Directory.CreateDirectory(targetPath);
 
-            ClaerTargetFiles(sourcePath, targetPath);
+            ClearTargetFiles(sourcePath, targetPath);
+            ClearTargetDirectories(sourcePath, targetPath);
+
             ReplicateSourceFiles(sourcePath, targetPath);
 
             foreach(var sourceSubPath in Directory.GetDirectories(sourcePath))
@@ -36,7 +38,21 @@ namespace FolderSyncTool.App.FileSync.Service
             }
         }
 
-        public void ClaerTargetFiles(string sourcePath, string targetPath)
+        public void ClearTargetDirectories(string sourcePath, string targetPath)
+        {
+            foreach(var targetSubPath in Directory.GetDirectories(targetPath))
+            {
+                var sourceSubPath = Path.Combine(sourcePath, Path.GetFileName(targetSubPath));
+
+                if (Directory.Exists(sourceSubPath)) continue;
+
+                ClearTargetFiles(sourceSubPath, targetSubPath);
+                ClearTargetDirectories(sourceSubPath, targetSubPath);
+                Directory.Delete(targetSubPath, false);
+            }
+        }
+
+        public void ClearTargetFiles(string sourcePath, string targetPath)
         {
             foreach (var filePath in Directory.GetFiles(targetPath))
             {

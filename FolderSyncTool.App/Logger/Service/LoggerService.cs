@@ -19,13 +19,15 @@ namespace FolderSyncTool.App.Logger.Service
 
         public void SaveLogFile(string logFilePath)
         {
+            if (StringBuilder.Length <= 0) return;
+
             string filePath = Path.Combine(logFilePath, LogFileName);
 
             Directory.CreateDirectory(logFilePath);
 
             using (StreamWriter streamWriter = new StreamWriter(filePath, true))
             {
-                streamWriter.WriteLine(StringBuilder.ToString());
+                streamWriter.WriteLine(StringBuilder.ToString().TrimEnd());
             }
 
             StringBuilder.Clear();
