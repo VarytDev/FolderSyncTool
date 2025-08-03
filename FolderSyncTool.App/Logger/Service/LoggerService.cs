@@ -4,7 +4,7 @@ namespace FolderSyncTool.App.Logger.Service
 {
     public class LoggerService : ILoggerService
     {
-        private const string LogFileName = "log.txt";
+        public const string LogFileName = "log.txt";
 
         public StringBuilder StringBuilder { get; private set; } = new StringBuilder();
 

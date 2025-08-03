@@ -17,7 +17,7 @@ namespace FolderSyncTool.App.FileSync.Service
             ReplicateDirectory(sourcePath, targetPath);
         }
 
-        private void ReplicateDirectory(string sourcePath, string targetPath)
+        public void ReplicateDirectory(string sourcePath, string targetPath)
         {
             if(!Directory.Exists(sourcePath))
             {
@@ -36,7 +36,7 @@ namespace FolderSyncTool.App.FileSync.Service
             }
         }
 
-        private void ClaerTargetFiles(string sourcePath, string targetPath)
+        public void ClaerTargetFiles(string sourcePath, string targetPath)
         {
             foreach (var filePath in Directory.GetFiles(targetPath))
             {
@@ -50,7 +50,7 @@ namespace FolderSyncTool.App.FileSync.Service
             }
         }
 
-        private void ReplicateSourceFiles(string sourcePath, string targetPath)
+        public void ReplicateSourceFiles(string sourcePath, string targetPath)
         {
             foreach (var filePath in Directory.GetFiles(sourcePath))
             {
@@ -70,7 +70,7 @@ namespace FolderSyncTool.App.FileSync.Service
             }
         }
 
-        private static bool IsFileChanged(string sourceFile, string targetFile)
+        public static bool IsFileChanged(string sourceFile, string targetFile)
         {
             return !string.Equals(FileHashingUtility.CheckMD5(sourceFile), FileHashingUtility.CheckMD5(targetFile));
         }

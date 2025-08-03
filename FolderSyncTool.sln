@@ -5,7 +5,9 @@ VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FolderSyncTool.App", "FolderSyncTool.App\FolderSyncTool.App.csproj", "{99421C25-EE1B-4BF2-86C1-B9C227DB03BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FolderSyncTool.UnitTests", "FolderSyncTool.UnitTests\FolderSyncTool.UnitTests.csproj", "{3E73C861-88A8-4E8F-AF56-0CC6C7B40138}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FolderSyncTool.UnitTests", "FolderSyncTool.UnitTests\FolderSyncTool.UnitTests.csproj", "{3E73C861-88A8-4E8F-AF56-0CC6C7B40138}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FolderSyncTool.FunctionalTests", "FolderSyncTool.FunctionalTests\FolderSyncTool.FunctionalTests.csproj", "{38090FAB-7F00-4C6D-9E80-2B619976107A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{3E73C861-88A8-4E8F-AF56-0CC6C7B40138}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E73C861-88A8-4E8F-AF56-0CC6C7B40138}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E73C861-88A8-4E8F-AF56-0CC6C7B40138}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38090FAB-7F00-4C6D-9E80-2B619976107A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38090FAB-7F00-4C6D-9E80-2B619976107A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38090FAB-7F00-4C6D-9E80-2B619976107A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38090FAB-7F00-4C6D-9E80-2B619976107A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
