@@ -6,14 +6,14 @@ namespace FolderSyncTool.App.Logger.Service
     {
         private const string LogFileName = "log.txt";
 
-        private StringBuilder stringBuilder = new StringBuilder();
+        public StringBuilder StringBuilder { get; private set; } = new StringBuilder();
 
         public void Log(string message)
         {
             string currentTime = DateTime.Now.ToString("HH:mm:ss");
             string formattedMessage = $"{currentTime} - {message}";
 
-            stringBuilder.AppendLine(formattedMessage);
+            StringBuilder.AppendLine(formattedMessage);
             Console.WriteLine(formattedMessage);
         }
 
@@ -25,10 +25,10 @@ namespace FolderSyncTool.App.Logger.Service
 
             using (StreamWriter streamWriter = new StreamWriter(filePath, true))
             {
-                streamWriter.WriteLine(stringBuilder.ToString());
+                streamWriter.WriteLine(StringBuilder.ToString());
             }
 
-            stringBuilder.Clear();
+            StringBuilder.Clear();
         }
     }
 }

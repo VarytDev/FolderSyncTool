@@ -26,6 +26,11 @@ namespace FolderSyncTool.App
             var parseService = host.Services.GetRequiredService<IArgumentParserService>();
             Config config = parseService.Parse(args);
 
+            if(config == null)
+            {
+                throw new NullReferenceException("Required arguments are missing!");
+            }
+
             var schedulerFactory = host.Services.GetRequiredService<ISchedulerFactory>();
             var scheduler = await schedulerFactory.GetScheduler();
             await scheduler.ScheduleFileSyncJob(config);

@@ -16,11 +16,16 @@ namespace FolderSyncTool.App.Logger.Scheduling
         {
             JobDataMap dataMap = context.MergedJobDataMap;
 
-            string? logPath = dataMap.GetString(LoggerJobConfiguration.LogPathKey);
+            string? logPath = dataMap.GetString(LoggerJobConfiguration.LogsPathKey);
 
             if (string.IsNullOrEmpty(logPath))
             {
                 throw new Exception("Can't get required paths from data map!");
+            }
+
+            if (!Path.IsPathRooted(logPath))
+            {
+                throw new Exception("Invalid path!");
             }
 
             _loggerService.SaveLogFile(logPath);
